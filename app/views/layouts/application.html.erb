@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Bookers2</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header class="navbar navbar-inverse" style="color: white">
+
+      <div id="container">
+        <div id="theTarget">
+          <div class="image1"></div>
+          <div class="image2"></div>
+          <div class="image3"></div>
+          <div class="image4"></div>
+          <div class="image5"></div>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <nav class="nav navbar-nav navbar-left" style="font-size: 20px">
+          <span>Bookers</span>
+        </nav>
+        <nav>
+          <ul class="nav nav-tabs navbar navbar-right">
+            <% if user_signed_in? %>
+              <li >
+                <%= link_to user_path(current_user.id), :style=>"color:white;" do %>
+                  <i class="glyphicon glyphicon-home home"></i> Home
+                <% end %>
+              </li>
+              <li>
+                <%= link_to users_path, :style=>"color:white;" do %>
+                  <i class="glyphicon glyphicon-user users"></i> Users
+                <% end %>
+              </li>
+              <li>
+                <%= link_to books_path, :style=>"color:white;" do %>
+                 <i class="glyphicon glyphicon-book books"></i> Books
+                <% end %>
+              </li>
+              <li>
+                <%= link_to destroy_user_session_path, method: :delete, :style=>"color:white;" do %>
+                  <i class="glyphicon glyphicon-log-out logout"></i> logout
+                <% end %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to root_path, :style=>"color:white;" do %>
+                    <i class="glyphicon glyphicon-home home"></i> Home
+                <% end %>
+              </li>
+              <li>
+                <%= link_to home_about_path, :style=>"color:white;" do %>
+                   <i class="glyphicon glyphicon-link about"></i> About
+                <% end %>
+              </li>
+              <li>
+                <%= link_to new_user_registration_path, :style=>"color:white;" do %>
+                   <i class="glyphicon glyphicon-edit sign_up"></i> sign up
+                  <% end %>
+              </li>
+              <li>
+                <%= link_to new_user_session_path, :style=>"color:white;" do %>
+                  <i class="glyphicon glyphicon-log-in sign_in"></i>login
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+    </header><!-- /header -->
+
+    <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "#{key}") %>
+    <% end %>
+
+    <%= yield %>
+  </body>
+</html>

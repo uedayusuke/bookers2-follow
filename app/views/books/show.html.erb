@@ -1,0 +1,103 @@
+<body>
+
+	<div class=container>
+		<div class=row>
+			<div class="col-xs-3">
+				<h2>User info</h2>
+				<table class="table table-striped">
+					<tr><%= attachment_image_tag @book.user, :profile_image, :fill, 100, 100, format: "jpeg", fallback: "no_image.jpeg" %></tr>
+					<tr>
+						<th>name</th>
+						<th>
+							<%= @book.user.name %>
+						</th>
+					</tr>
+					<tr>
+						<th>introduction</th>
+						<th>
+							<%= @book.user.introduction %>
+						</th>
+					</tr>
+				</table>
+				<div class=row>
+					<% if @book.user==current_user %>
+						<%= link_to "", edit_user_path, class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+					<% else %>
+						<%= link_to "", user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
+					<% end %>
+
+				</div>
+				<h2>New book</h2>
+				<%= form_for(@book) do |f| %>
+					<label for="title">Title</label><br>
+					<%= f.text_field :title %><br>
+					<label for="opinion">Opinion</label><br>
+					<%= f.text_area :body %><br>
+					<%= f.submit "Create Book" %>
+				<% end %>
+			</div>
+			<div class="col-xs-9">
+				<h2>Book detail</h2>
+				<table class="table table-hover table-inverse">
+					<tbody>
+						<tr>
+							<td>
+								<%= link_to user_path(@book.user_id) do %>
+									<%= attachment_image_tag @book.user, :profile_image, :fill, 40, 40, format: "jpeg", fallback: "no_image.jpeg" %><br>
+										<%= @book.user.name %>
+									<% end %>
+							</td>
+							<td>
+								<%= link_to book_path(@book.id) do %>
+									<%= @book.title %>
+								<% end %>
+							</td>
+							<td><%= @book.body %></td>
+							<% if @book.user == current_user %>
+								<td><%= link_to "Edit", edit_book_path, class: "btn-sm btn-success" %></td>
+								<td><%= link_to "Destroy", book_path(@book.id), method: :delete,class: "btn-sm btn-danger", "data-confirm" => "本当に消しますか？" %></td>
+							<% end %>
+							<% if @book.favorited_by?(current_user) %>
+								<td>
+									<%= link_to book_favorites_path(@book), method: :delete do %>
+										<i class="fa fa-heart" aria-hidden="true" style="color: red;"></i>
+										<%= @book.favorites.count %>
+									<% end %>
+								</td>
+							<% else %>
+								<td>
+									<%= link_to book_favorites_path(@book), method: :post do %>
+										<i class="fa fa-heart-o" aria-hidden="true"></i>
+										<%= @book.favorites.count %>
+									<% end %>
+								</td>
+							<% end %>
+							<td>コメント数：<%= @book.book_comments.count %> </td>
+							</tr>
+					</tbody>
+				</table>
+				<%= form_for [@book, @book_comment] do |f| %>
+					<%= f.text_area :comment %>
+					<%= f.submit "送信", class:"btn btn-lg btn-base-1 pull-right" %>
+				<% end %>
+				<h2>Comments</h2>
+				<tbody>
+					<% @book_comments.each do |book_comments| %>
+						<tr> <%= book_comments.comment %> </tr>
+					<% end %>
+				</tbody>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-3 col-xs-offset-9">
+            <p>CopyRight Infratop.inc</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+</body>
