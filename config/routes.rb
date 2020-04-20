@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   	resource :favorites
   	resource :book_comments
   end
+  post 'follow/:id' => 'relationships#follow', as: 'follow'
+  post 'unfollow/:id' => 'relationships#unfollow', as: 'unfollow'
 end
