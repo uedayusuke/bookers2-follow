@@ -31,6 +31,14 @@
 							<%= @user.introduction %>
 						</th>
 					</tr>
+					<tr>
+						<th>follows</th>
+						<th><%= @user.follower.count %></th>
+					</tr>
+					<tr>
+						<th>followers</th>
+						<th><%= @user.followed.count %></th>
+					</tr>
 				</table>
 				<div class=row>
 					<%= link_to "", edit_user_path(@user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" %>
